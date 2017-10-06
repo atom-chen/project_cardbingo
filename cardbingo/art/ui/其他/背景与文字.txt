@@ -1,0 +1,17 @@
+筹码界面
+背景图：	大小 181*494			九宫文件 cardbing_img_bet_select
+文字： 		字体 cardbing_number_nirmal  	倍率 1.4
+
+
+
+
+奖励完成界面
+背景图： 	大小 540*286  			九宫文件 cardbing_img_back_01
+文字：   	字体 cardbing_number_award  	倍率 2.0
+
+
+
+
+奖励一览界面
+背景图：	大小 460*507			九宫文件 cardbing_img_bet_view
+文字：		字体 cardbing_number_nirmal  	倍率 1.2

@@ -1,0 +1,13 @@
+顶部背景  
+九宫文件  cardbing_img_back_01.png 
+拉伸大小  X（宽度适配）*40
+
+
+中部背景
+九宫文件  cardbing_img_back_02.png
+拉伸大小 X（宽度适配）*83
+
+
+底部背景
+九宫文件 cardbing_img_back_00.png
+拉伸大小 X（宽度适配）*960

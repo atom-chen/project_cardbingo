@@ -1,0 +1,24 @@
+顶部货币数字   字体 cardbing_number_normal_none  倍率 1.2
+
+开奖号码	字体 cardbing_number_black  倍率 1.0
+
+
+当前球/上限球 
+‘当前球/’  字体 cardbing_number_normal_none  倍率 1.2
+‘上限球’   字体 cardbing_number_normal_none  倍率 1.0
+
+
+
+
+奖金数值     字体 cardbing_number_award  倍率 1.0
+
+说明文字     字体 黑体   大小20像素  颜色 ffffff
+
+
+筹码按钮数字 字体 cardbing_number_nirmal_green  倍率 1.0
+筹码UI数字   字体 cardbing_number_normal_blue  倍率 1.0
+
+卡牌上数字  字体 cardbing_number_nirmal  倍率 1.0
+
+奖励说明UI数字  字体 cardbing_number_normal_none  倍率 1.2
+

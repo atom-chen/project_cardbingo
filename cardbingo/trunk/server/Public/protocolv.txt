@@ -1,0 +1,310 @@
+Version:1
+
+
+[40,45,0,59,51,0,0,80,3,49,27,56,23,6,37,9,88,13]
+[0,0,31,67,66,12,52,55,46,0,62,32,10,76,35,57,34,24]
+[41,0,15,86,43,44,79,25,71,77,0,22,50,61,53,28,16,0]
+[38,63,0,4,26,42,19,83,0,60,14,89,81,1,0,20,69,13]
+[0,72,30,0,85,39,58,68,54,21,7,84,33,5,82,29,48,0]
+[36,8,75,0,90,0,87,70,18,2,64,73,78,74,17,0,65,47]
+
+初始化数据结构体说明
+
+{"coin":[11,20,9],"diamond":[11,20,9],"power":[10,156],"item":{"1100":[11,20,9],"1110":[11,20,9]},"hero":{"1100":0,"1110":1},"copy":{"1000":[0,100,2,1,2,1,2,3,{"100":10,"200":20},{"100":10,"200":20},0]}}
+
+coin 金币 第一个当前值 第二个累计获得值 第三个累计消耗值
+
+diamond 钻石 第一个当前值 第二个累计获得值 第三个累计消耗值
+
+power 体力 第一个当前体力 第二个上次剩余时间
+
+item 道具 key表示ID value列表里 第一个当前值 第二个累计获得值 第三个累计消耗值
+
+hero 英雄角色 key表示ID value表示是否解锁
+
+copy 关卡 key表示ID value列表里 第一个关卡类型 第二个关卡最高分数 第三个关卡最高星级 
+						   第四个关卡累计成功次数 第五个关卡累计续步成功次数 第六个关卡累计失败次数 第七个关卡累计放弃失败次数 第八个关卡累计续步失败次数 
+						   第九个key表示关卡道具ID,value表示累计使用个数 第十个key表示消耗道具ID,value表示累计使用个数 第十一个关卡是否解锁
+						   
+登陆及业务返回值数据结构体说明
+
+{"common":{"av":1,"token":"xxx","timestamp":24777384775,"isbind":0},"init":{"coin":10,"diamond":20,"power":[10,24777384775,156],"item":{"1100":11,"1110":11},"hero":{"1100":0,"1110":1},"copy":{"1000":[0,100,2,0]}},"business":{"signin":[5,1,2,4756768547878],"task_reward":{"1100":2,"1110":5},"mall_tplt":{},"giftmall":{},"itemmall":{}}}
+
+common 通用返回值
+av 存档版本号
+token Token
+timestamp 当前时间戳
+isbind 是否绑定 0 未绑定
+
+init 初始化数据返回值
+coin 玩家当前金币
+diamond 玩家当前钻石
+power 玩家当前体力 列表里第一个当前体力 第二个上次记录时间 第三个上次剩余时间
+item 玩家当前道具 key表示ID value表示数量
+hero 玩家当前英雄角色 key表示ID value表示是否解锁 0未解锁 1解锁
+copy 玩家当前关卡 key表示ID value列表里 第一个关卡类型 第二个关卡最高分数 第三个关卡最高星级 第四个关卡是否解锁
+
+business 业务返回值
+signin 签到 列表里第一个上一次签到是本周期（30天）的第几天 第二个本周期已正常签到次数 第三个本周期已补签次数 本次签到时间
+task_reward 星级奖励 key表示ID value表示数量
+task 星级奖励状态 列表里第一个任务类型 第二个任务ID 第三个任务状态
+mall_tplt 商城表
+giftmall 礼包商城 列表里第一个ID 第二个已购买次数
+itemmall 道具商城 列表里第一个ID 第二个已购买次数
+signin_reward 签到触发 key表示签到天数ID, value列表里 第一个签到时间 第二个已购买次数
+
+
+15806019253 陈
+//后台协议
+
+//客户端协议
+//http://localhost/index.php?method=Account.start&card={"card1":[40,45,0,59,51,0,0,80,3,49,27,56,23,6,37,9,88,13],"card2":[0,0,31,67,66,12,52,55,46,0,62,32,10,76,35,57,34,24],"card3":[41,0,15,86,43,44,79,25,71,77,0,22,50,61,53,28,16,0],"card4":[38,63,0,4,26,42,19,83,0,60,14,89,81,1,0,20,69,13],"card5":[0,72,30,0,85,39,58,68,54,21,7,84,33,5,82,29,48,0],"card6":[36,8,75,0,90,0,87,70,18,2,64,73,78,74,17,0,65,47]}
+
+account.register //注册请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ dv_str,//数据校验版本号
+ cid_int,//渠道id
+ verify_list,//初始化效验{"coin":1,"diamond":22}
+ username_str,//账号
+ password_str,//密码
+ tourist_int,//是否游客 0否 1是
+]
+
+account.register.return//注册返回
+[av_int,//存档版本号
+]
+
+
+account.login //登录请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据 {"resouce":{"coin":{"value":11,"gain":20,"cost":9},"diamond":{"value":11,"gain":20,"cost":9},"power":{"value":11,"remaintime":256}},"item":[{"id":1100,"value":100,"gain":20,"cost":9},{"id":1110,"value":100,"gain":20,"cost":9}],"hero":[{"id":1100,"lock":0},{"id":1110,"lock":100}],"copy":[{"id":1000,"score":100,"star":2,"success":1,"x_success":2,"f_fail":1,"x_fail":2,"fail":3,"g_item":[{"id":100,"value":10}],"x_item":[{"id":100,"value":10}]}]}
+ username_str,//账号
+ password_str,//密码
+]
+
+account.login.return//登录返回
+
+account.bind //绑定请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据 {"resouce":{"coin":{"value":11,"gain":20,"cost":9},"diamond":{"value":11,"gain":20,"cost":9},"power":{"value":11,"remaintime":256}},"item":[{"id":1100,"value":100,"gain":20,"cost":9},{"id":1110,"value":100,"gain":20,"cost":9}],"hero":[{"id":1100,"lock":0},{"id":1110,"lock":100}],"copy":[{"id":1000,"score":100,"star":2,"success":1,"x_success":2,"f_fail":1,"x_fail":2,"fail":3,"g_item":[{"id":100,"value":10}],"x_item":[{"id":100,"value":10}]}]}
+ old_username_str,//旧账号
+ old_password_str,//旧密码
+ new_username_str,//新账号
+ new_password_str,//新密码
+]
+
+account.login.return//绑定返回
+
+
+role.set_nickname //设置nickname请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ nickname_str,//nickname
+]
+
+account.set_nickname.return//设置nickname返回
+
+
+hero.hero_update //英雄升级请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ heroid_int,//heroid
+]
+
+hero.hero_update.return//英雄升级返回
+
+
+hero.hero_unlock //英雄解锁请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ heroid_int,//heroid
+]
+
+hero.hero_unlock.return//英雄解锁返回
+
+
+role.signin //签到请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ sign_type_int,//签到类型 1正常签到 2补签
+]
+
+role.signin.return//签到返回
+[signin
+]
+
+role.sync_data //主动同步数据请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+]
+
+role.sync_data.return//主动同步数据返回
+
+role.sync_mall //主动同步商城表请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+]
+
+role.sync_mall.return//主动同步商城表返回
+[
+mall_tplt
+]
+
+task.task_reward //任务奖励请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ id_int,//任务ID
+]
+
+task.task_reward.return//任务奖励返回
+[
+task_reward
+]
+
+mall.gift_mall //礼包商城请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ id_int,//礼包ID
+ num_int,//礼包数量
+]
+
+mall.gift_mall.return//礼包商城返回
+
+
+mall.item_mall //道具商城请求
+[rv_int,//资源版本号
+ pv_int,//协议版本号
+ av_int,//存档版本号
+ dv_str,//数据校验版本号
+ verify_list,//数据效验{"coin":1,"diamond":22}
+ initdata_list,//初始化数据
+ username_str,//账号
+ password_str,//密码
+ token_str,//token
+ id_int,//道具ID
+ num_int,//道具数量
+]
+
+mall.item_mall.return//道具商城返回
+
+mall.get_mall_tplt //请求获得商城表
+[
+]
+
+mall.get_mall_tplt.return//请求获得商城表返回
+[mall_tplt,//表数据
+]
+
+back.get_broadcast //请求获得公告
+[
+]
+
+back.get_broadcast.return//请求获得公告返回
+[
+broadcast,//公告
+]
+
+
+//错误代码
+
+//账号相关
+0 		//成功
+1000    //协议版本号校验不成功
+1001    //资源版本号校验不成功
+1002    //初始化数据校验不成功
+1003    //数据校验不成功
+1004    //账号密码校验不成功
+1005    //用户重复注册
+1006    //账号不存在
+1007    //密码错误
+1008    //服务器繁忙
+1009    //token失效
+1010    //token不正确
+1011    //存档版本号校验不成功
+1012    //该账号已绑定
+
+//业务相关
+10000  //消耗金币数量错误
+10001  //消耗钻石数量错误
+10002  //消耗道具数量错误
+10003  //英雄ID错误
+10004  //已经是最高级的英雄
+10005  //今天已经签到无法再签
+10006  //次数不够无法补签
+10007  //没有这个任务ID
+10008  //星级不足无法获得奖励
+10009  //没有这个奖励ID
+10010  //该任务已领取奖励
+10011  //reward_tplt有错误
+10012  //没有这个礼包ID
+10013  //这个礼包ID超过限购次数
+10014  //没有这个道具ID
+10015  //这个道具ID超过限购次数
+
+
+
